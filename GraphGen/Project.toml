@@ -1,0 +1,23 @@
+name = "GraphGen"
+uuid = "bde13db1-e446-4e46-bac1-e0a693e8a20f"
+authors = ["GiggleLiu <cacate0129@gmail.com> and contributors"]
+version = "1.0.0-DEV"
+
+[deps]
+GenericTensorNetworks = "3521c873-ad32-4bb4-b63d-f4f178f42b49"
+GraphIO = "aa1b3936-2fda-51b9-ab35-c553d3a640a2"
+Graphs = "86223c79-3864-5bf0-83f7-82e725a168b6"
+Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
+
+[compat]
+julia = "1.10"
+GenericTensorNetworks = "2"
+GraphIO = "0.7"
+Graphs = "1"
+Random = "1"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
