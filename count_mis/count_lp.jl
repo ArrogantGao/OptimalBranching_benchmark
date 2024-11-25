@@ -21,6 +21,10 @@ function count_mis(cfg, k)
     branch(MISProblem(smallgraph(:tutte)), config)
     @info "inilialization done"
 
+    @info "warming up"
+    res = branch(MISProblem(graphs[1]), config)
+    @info "warming up done"
+
     all_mis = zeros(Int, length(graphs))
     all_counts = zeros(Int, length(graphs))
 
@@ -40,10 +44,10 @@ function count_mis(cfg, k)
     CSV.write(data_file_name, DataFrame(id = 1:length(graphs), mis = all_mis, count = all_counts), append = true)
 end
 
-function main()
-    for i in 60:20:260
-        count_mis(RegularGraphSpec(i, 3), 2)
-    end
-end
+# function main()
+#     for i in 260
+#         count_mis(RegularGraphSpec(i, 3), 2)
+#     end
+# end
 
-main()
+# main()

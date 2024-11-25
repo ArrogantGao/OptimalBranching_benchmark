@@ -21,8 +21,11 @@ rr:
 count_mis2:
 	$(JL) -t 100 -e 'include("count_mis/count_mis2.jl"); main()'
 
-count_lp:
-	$(JL) -t 100 -e 'include("count_mis/count_lp.jl"); main()'
+count_lp_n:
+	$(JL) -t 100 -e 'include("count_mis/count_lp.jl"); count_mis(RegularGraphSpec($(i), 3), 2)'
 
-count_ip:
-	$(JL) -t 100 -e 'include("count_mis/count_ip.jl"); main()'
+count_ip_n:
+	$(JL) -t 100 -e 'include("count_mis/count_ip.jl"); count_mis(RegularGraphSpec($(i), 3), 2)'
+
+count_xiao2013_n:
+	$(JL) -t 100 -e 'include("count_mis/count_xiao.jl"); count_mis(RegularGraphSpec($(i), 3))'
