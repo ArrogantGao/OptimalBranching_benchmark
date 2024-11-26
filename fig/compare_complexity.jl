@@ -6,6 +6,10 @@ const basedir = dirname(dirname(@__DIR__))
 # Load data
 const data_dir = joinpath(basedir, "OptimalBranching_benchmark/data")
 
+function geometric_mean(x)
+    return exp(mean(log.(x)))
+end
+
 ns_mis2 = [60:20:160...]
 count_mis2 = Vector{Vector{Int}}()
 for n in ns_mis2
@@ -14,7 +18,7 @@ for n in ns_mis2
     push!(count_mis2, df_mis2.count)
 end
 
-ns_setcover = [60:20:220...]
+ns_setcover = [60:20:260...]
 count_lp = Vector{Vector{Int}}()
 count_ip = Vector{Vector{Int}}()
 for n in ns_setcover
@@ -25,7 +29,7 @@ for n in ns_setcover
     push!(count_lp, df_lp.count)
 end
 
-ns_xiao = [60:20:220...]
+ns_xiao = [60:20:260...]
 count_xiao = Vector{Vector{Int}}()
 for n in ns_xiao
     cfg = GraphGen.RegularGraphSpec(n, 3)
@@ -34,15 +38,22 @@ for n in ns_xiao
     push!(count_xiao, df_xiao.count)
 end
 
-ns_plot = [50:20:270...]
+ns_plot = [50:20:290...]
+
+n0 = 1
 
 # @. model(x, p) = p[1]^x * p[2]
 @. model(x, p) = p[1] * x + p[2]
 p0 = [1.0, 1.0]
-fit_mis2 = curve_fit(model, ns_mis2, log10.(mean.(count_mis2)), p0)
-fit_lp = curve_fit(model, ns_setcover, log10.(mean.(count_lp)), p0)
-fit_ip = curve_fit(model, ns_setcover, log10.(mean.(count_ip)), p0)
-fit_xiao = curve_fit(model, ns_xiao, log10.(mean.(count_xiao)), p0)
+# fit_mis2 = curve_fit(model, ns_mis2[n0:end], log10.(mean.(count_mis2[n0:end])), p0)
+# fit_lp = curve_fit(model, ns_setcover[n0:end], log10.(mean.(count_lp[n0:end])), p0)
+# fit_ip = curve_fit(model, ns_setcover[n0:end], log10.(mean.(count_ip[n0:end])), p0)
+# fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(mean.(count_xiao[n0:end])), p0)
+
+fit_mis2 = curve_fit(model, ns_mis2[n0:end], log10.(geometric_mean.(count_mis2[n0:end])), p0)
+fit_lp = curve_fit(model, ns_setcover[n0:end], log10.(geometric_mean.(count_lp[n0:end])), p0)
+fit_ip = curve_fit(model, ns_setcover[n0:end], log10.(geometric_mean.(count_ip[n0:end])), p0)
+fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(geometric_mean.(count_xiao[n0:end])), p0)
 
 # fit_mis2 = curve_fit(model, ns_mis2, mean.(count_mis2), p0)
 # fit_lp = curve_fit(model, ns_setcover, mean.(count_lp), p0)
@@ -70,7 +81,7 @@ begin
 
     axislegend(ax, position = :lt, fontsize = 15, font = "Montserrat")
 end
-xlims!(ax, 45, 275)
+xlims!(ax, 45, 295)
 ylims!(ax, 1, 1e6)
 fig
 
