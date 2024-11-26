@@ -19,7 +19,7 @@ rr:
 	$(JL) -e 'include("Graphs/generate.jl"); gen(RegularGraphSpec($(size), $(d)), $(nsample))'
 
 count_mis2:
-	$(JL) -t 100 -e 'include("count_mis/count_mis2.jl"); main()'
+	$(JL) -t 100 -e 'include("count_mis/count_mis2.jl"); count_mis(RegularGraphSpec($(i), 3))'
 
 count_lp_n:
 	$(JL) -t 100 -e 'include("count_mis/count_lp.jl"); count_mis(RegularGraphSpec($(i), 3), 2)'

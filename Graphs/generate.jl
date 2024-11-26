@@ -1,4 +1,6 @@
 using GraphGen, DelimitedFiles, GraphGen.GenericTensorNetworks
+using Random
+Random.seed!(1234)
 
 function gen(cfg, nsample::Int)
     dir = dirof(cfg)
