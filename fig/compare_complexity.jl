@@ -18,7 +18,7 @@ for n in ns_mis2
     push!(count_mis2, df_mis2.count)
 end
 
-ns_setcover = [60:20:200...]
+ns_setcover = [60:20:220...]
 count_lp = Vector{Vector{Int}}()
 count_ip = Vector{Vector{Int}}()
 for n in ns_setcover
@@ -29,7 +29,7 @@ for n in ns_setcover
     push!(count_lp, df_lp.count)
 end
 
-ns_xiao = [60:20:220...]
+ns_xiao = [60:20:240...]
 count_xiao = Vector{Vector{Int}}()
 for n in ns_xiao
     cfg = GraphGen.RegularGraphSpec(n, 3)
