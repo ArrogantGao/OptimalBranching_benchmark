@@ -29,7 +29,7 @@ for n in ns_setcover
     push!(count_lp, df_lp.count)
 end
 
-ns_setcover_xiao = [60:20:180...]
+ns_setcover_xiao = [60:20:200...]
 count_lp_xiao = Vector{Vector{Int}}()
 count_ip_xiao = Vector{Vector{Int}}()
 for n in ns_setcover_xiao
@@ -49,7 +49,7 @@ for n in ns_xiao
     push!(count_xiao, df_xiao.count)
 end
 
-ns_plot = [50:20:290...]
+ns_plot = [50:20:250...]
 
 n0 = 3
 
@@ -78,14 +78,14 @@ marker_styles = [:circle, :diamond, :utriangle, :hexagon, :rect, :star5]
 colors = [:blue, :green, :red, :purple, :orange, :brown]
 locs_x = [150, 120, 220, 100, 120, 180]
 locs_y = [100000, 10, 5000, 10, 1000, 10]
-labels = ["mis2", "xiao2013", "opt_branching_lp", "opt_branching_ip", "opt_branching_lp_xiao", "opt_branching_ip_xiao"]
+labels = ["mis2", "xiao2013", "opt_branching_lp_mis2", "opt_branching_ip_mis2", "opt_branching_lp_xiao", "opt_branching_ip_xiao"]
 nss = [ns_mis2, ns_xiao, ns_setcover, ns_setcover, ns_setcover_xiao, ns_setcover_xiao]
 fit = [fit_mis2, fit_xiao, fit_lp, fit_ip, fit_lp_xiao, fit_ip_xiao]
 begin
     fig = Figure(size = (800, 600), fontsize = 23)
     set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
     ax = Axis(fig[1, 1], xlabel = "Number of Vertices", ylabel = "Number of Branches", yscale = log10)
-    for (i, count) in enumerate([count_mis2, count_lp, count_ip, count_xiao, count_lp_xiao, count_ip_xiao])
+    for (i, count) in enumerate([count_mis2, count_xiao, count_lp, count_ip, count_lp_xiao, count_ip_xiao])
         scatter!(ax, nss[i], mean.(count), color = colors[i], label = labels[i], markersize = ms, marker = marker_styles[i])
         lines!(ax, ns_plot, 10 .^ (model(ns_plot, fit[i].param)), color = colors[i], linewidth = 2, linestyle = :dash)
         errorbars!(ax, nss[i], mean.(count), std.(count), color = colors[i], whiskerwidth = 10)
@@ -94,8 +94,9 @@ begin
 
     axislegend(ax, position = :rb, fontsize = 15, font = "Montserrat")
 end
-xlims!(ax, 45, 295)
+xlims!(ax, 45, 255)
 ylims!(ax, 1, 1e6)
 fig
 
 save(joinpath(@__DIR__, "branching_comparison.pdf"), fig)
+save(joinpath(@__DIR__, "branching_comparison.png"), fig)
