@@ -50,7 +50,7 @@ function count_mis(cfg, k)
             all_mis[id] = mis
             all_counts[id] = count
         end
+        CSV.write(data_file_name, DataFrame(id = (i-1)*nthreads + 1:min(i*nthreads, length(graphs)), mis = all_mis[(i-1)*nthreads + 1:min(i*nthreads, length(graphs))], count = all_counts[(i-1)*nthreads + 1:min(i*nthreads, length(graphs))]), append = true)
     end
-    CSV.write(data_file_name, DataFrame(id = 1:length(graphs), mis = all_mis, count = all_counts), append = true)
     @info "mean_count = $(mean(all_counts)), geometric_mean_count = $(geometric_mean(all_counts))"
 end

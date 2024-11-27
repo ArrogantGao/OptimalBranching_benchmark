@@ -77,10 +77,10 @@ ms = 12
 marker_styles = [:circle, :diamond, :utriangle, :hexagon, :rect, :star5]
 colors = [:blue, :green, :red, :purple, :orange, :brown]
 locs_x = [150, 120, 220, 100, 120, 180]
-locs_y = [100000, 1000, 5000, 10, 1000, 10]
-labels = ["mis2", "opt_branching_lp", "opt_branching_ip", "xiao2013", "opt_branching_lp_xiao", "opt_branching_ip_xiao"]
-nss = [ns_mis2, ns_setcover, ns_setcover, ns_xiao, ns_setcover_xiao, ns_setcover_xiao]
-fit = [fit_mis2, fit_lp, fit_ip, fit_xiao, fit_lp_xiao, fit_ip_xiao]
+locs_y = [100000, 10, 5000, 10, 1000, 10]
+labels = ["mis2", "xiao2013", "opt_branching_lp", "opt_branching_ip", "opt_branching_lp_xiao", "opt_branching_ip_xiao"]
+nss = [ns_mis2, ns_xiao, ns_setcover, ns_setcover, ns_setcover_xiao, ns_setcover_xiao]
+fit = [fit_mis2, fit_xiao, fit_lp, fit_ip, fit_lp_xiao, fit_ip_xiao]
 begin
     fig = Figure(size = (800, 600), fontsize = 23)
     set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
