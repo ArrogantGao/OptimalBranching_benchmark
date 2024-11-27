@@ -26,3 +26,4 @@ Manifest.toml
 .vscode
 .DS_Store
 OptimalBranching.jl/
+log

@@ -1,7 +1,12 @@
 using OptimalBranching, GraphGen, Graphs
 using CSV, DataFrames, DelimitedFiles
+using Statistics
 
 const basedir = dirname(dirname(@__DIR__))
+
+function geometric_mean(x)
+    return exp(mean(log.(x)))
+end
 
 function count_mis(cfg, k)
     @info "Counting MIS for " * GraphGen.unique_string(cfg)
@@ -21,29 +26,30 @@ function count_mis(cfg, k)
     branch(MISProblem(smallgraph(:tutte)), config)
     @info "inilialization done"
 
+    @info "warming up"
+    res = branch(MISProblem(graphs[1]), config)
+    @info "warming up done"
+
     all_mis = zeros(Int, length(graphs))
     all_counts = zeros(Int, length(graphs))
 
-    Threads.@threads for id in 1:length(graphs)
-        graph = graphs[id]
-        problem = MISProblem(graph)
-        res = branch(problem, config)
+    nthreads = Threads.nthreads()
+    n = length(graphs) ÷ nthreads
+    for i in 1:n
+        Threads.@threads for id in (i-1)*nthreads + 1:min(i*nthreads, length(graphs))
+            graph = graphs[id]
+            problem = MISProblem(graph)
+            res = branch(problem, config)
 
-        mis = res.mis_size
-        count = res.mis_count
+            mis = res.mis_size
+            count = res.mis_count
 
-        @info "n = $(nv(graph)), id = $id, mis = $mis, count = $count"
+            @info "lp, nv = $(nv(graph)), id = $id, mis = $mis, count = $count"
 
-        all_mis[id] = mis
-        all_counts[id] = count
+            all_mis[id] = mis
+            all_counts[id] = count
+        end
+        CSV.write(data_file_name, DataFrame(id = (i-1)*nthreads + 1:min(i*nthreads, length(graphs)), mis = all_mis[(i-1)*nthreads + 1:min(i*nthreads, length(graphs))], count = all_counts[(i-1)*nthreads + 1:min(i*nthreads, length(graphs))]), append = true)
     end
-    CSV.write(data_file_name, DataFrame(id = 1:length(graphs), mis = all_mis, count = all_counts), append = true)
+    @info "mean_count = $(mean(all_counts)), geometric_mean_count = $(geometric_mean(all_counts))"
 end
-
-function main()
-    for i in 60:20:260
-        count_mis(RegularGraphSpec(i, 3), 2)
-    end
-end
-
-main()
