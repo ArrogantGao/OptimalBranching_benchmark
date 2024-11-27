@@ -29,7 +29,7 @@ for n in ns_setcover
     push!(count_lp, df_lp.count)
 end
 
-ns_setcover_xiao = [60:20:200...]
+ns_setcover_xiao = [60:20:220...]
 count_lp_xiao = Vector{Vector{Int}}()
 count_ip_xiao = Vector{Vector{Int}}()
 for n in ns_setcover_xiao
@@ -49,7 +49,7 @@ for n in ns_xiao
     push!(count_xiao, df_xiao.count)
 end
 
-ns_plot = [50:20:250...]
+ns_plot = [30:20:270...]
 
 n0 = 3
 
@@ -67,6 +67,13 @@ fit_ip = curve_fit(model, ns_setcover[n0:end], log10.(geometric_mean.(count_ip[n
 fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(geometric_mean.(count_xiao[n0:end])), p0)
 fit_lp_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_lp_xiao[n0:end])), p0)
 fit_ip_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_ip_xiao[n0:end])), p0)
+
+@info "count_mis2: $(geometric_mean.(count_mis2[n0:end])), fit_mis2: $(10^fit_mis2.param[1])"
+@info "count_lp: $(geometric_mean.(count_lp[n0:end])), fit_lp: $(10^fit_lp.param[1])"
+@info "count_ip: $(geometric_mean.(count_ip[n0:end])), fit_ip: $(10^fit_ip.param[1])"
+@info "count_xiao: $(geometric_mean.(count_xiao[n0:end])), fit_xiao: $(10^fit_xiao.param[1])"
+@info "count_lp_xiao: $(geometric_mean.(count_lp_xiao[n0:end])), fit_lp_xiao: $(10^fit_lp_xiao.param[1])"
+@info "count_ip_xiao: $(geometric_mean.(count_ip_xiao[n0:end])), fit_ip_xiao: $(10^fit_ip_xiao.param[1])"
 
 # fit_mis2 = curve_fit(model, ns_mis2, mean.(count_mis2), p0)
 # fit_lp = curve_fit(model, ns_setcover, mean.(count_lp), p0)
@@ -88,7 +95,7 @@ begin
     for (i, count) in enumerate([count_mis2, count_xiao, count_lp, count_ip, count_lp_xiao, count_ip_xiao])
         scatter!(ax, nss[i], mean.(count), color = colors[i], label = labels[i], markersize = ms, marker = marker_styles[i])
         lines!(ax, ns_plot, 10 .^ (model(ns_plot, fit[i].param)), color = colors[i], linewidth = 2, linestyle = :dash)
-        errorbars!(ax, nss[i], mean.(count), std.(count), color = colors[i], whiskerwidth = 10)
+        # errorbars!(ax, nss[i], mean.(count), std.(count), color = colors[i], whiskerwidth = 10)
         # text!(locs_x[i], locs_y[i], text = L"O(%$(round(10^fit[i].param[1], digits = 4))^n)", color = colors[i], fontsize = 23)
     end
 
