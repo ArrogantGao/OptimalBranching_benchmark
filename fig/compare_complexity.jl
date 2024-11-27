@@ -18,7 +18,7 @@ for n in ns_mis2
     push!(count_mis2, df_mis2.count)
 end
 
-ns_setcover = [60:20:240...]
+ns_setcover = [60:20:220...]
 count_lp = Vector{Vector{Int}}()
 count_ip = Vector{Vector{Int}}()
 for n in ns_setcover
@@ -29,7 +29,7 @@ for n in ns_setcover
     push!(count_lp, df_lp.count)
 end
 
-ns_setcover_xiao = [60:20:220...]
+ns_setcover_xiao = [60:20:200...]
 count_lp_xiao = Vector{Vector{Int}}()
 count_ip_xiao = Vector{Vector{Int}}()
 for n in ns_setcover_xiao
@@ -40,7 +40,7 @@ for n in ns_setcover_xiao
     push!(count_lp_xiao, df_lp.count)
 end
 
-ns_xiao = [60:20:240...]
+ns_xiao = [60:20:260...]
 count_xiao = Vector{Vector{Int}}()
 for n in ns_xiao
     cfg = GraphGen.RegularGraphSpec(n, 3)
@@ -68,12 +68,12 @@ fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(geometric_mean.(count_xiao[n
 fit_lp_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_lp_xiao[n0:end])), p0)
 fit_ip_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_ip_xiao[n0:end])), p0)
 
-@info "count_mis2: $(geometric_mean.(count_mis2[n0:end])), fit_mis2: $(10^fit_mis2.param[1])"
-@info "count_lp: $(geometric_mean.(count_lp[n0:end])), fit_lp: $(10^fit_lp.param[1])"
-@info "count_ip: $(geometric_mean.(count_ip[n0:end])), fit_ip: $(10^fit_ip.param[1])"
-@info "count_xiao: $(geometric_mean.(count_xiao[n0:end])), fit_xiao: $(10^fit_xiao.param[1])"
-@info "count_lp_xiao: $(geometric_mean.(count_lp_xiao[n0:end])), fit_lp_xiao: $(10^fit_lp_xiao.param[1])"
-@info "count_ip_xiao: $(geometric_mean.(count_ip_xiao[n0:end])), fit_ip_xiao: $(10^fit_ip_xiao.param[1])"
+@info "count_mis2: $(geometric_mean.(count_mis2)), fit_mis2: $(10^fit_mis2.param[1])"
+@info "count_lp: $(geometric_mean.(count_lp)), fit_lp: $(10^fit_lp.param[1])"
+@info "count_ip: $(geometric_mean.(count_ip)), fit_ip: $(10^fit_ip.param[1])"
+@info "count_xiao: $(geometric_mean.(count_xiao)), fit_xiao: $(10^fit_xiao.param[1])"
+@info "count_lp_xiao: $(geometric_mean.(count_lp_xiao)), fit_lp_xiao: $(10^fit_lp_xiao.param[1])"
+@info "count_ip_xiao: $(geometric_mean.(count_ip_xiao)), fit_ip_xiao: $(10^fit_ip_xiao.param[1])"
 
 # fit_mis2 = curve_fit(model, ns_mis2, mean.(count_mis2), p0)
 # fit_lp = curve_fit(model, ns_setcover, mean.(count_lp), p0)
