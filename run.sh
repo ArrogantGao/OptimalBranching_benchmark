@@ -4,11 +4,11 @@ mkdir -p log fig
 
 threads=128
 
-for i in 100 120 140 160; do
+for i in 60 80 100 120 140 160; do
     make count_mis2_rr i=$i threads=$threads
 done
 
-for i in 100 120 140 160 180 200 220; do
+for i in 60 80 100 120 140 160 180 200 220; do
     make count_xiao2013_rr i=$i threads=$threads
     make count_ip_rr i=$i threads=$threads
     make count_lp_xiao_rr i=$i threads=$threads
