@@ -20,13 +20,13 @@ ovs = OptimalBranchingMIS.open_vertices(graph, vs)
 subg, vmap = induced_subgraph(graph, vs)
 tbl = OptimalBranchingMIS.reduced_alpha_configs(table_solver, subg, Int[findfirst(==(v), vs) for v in ovs])
 @info "the length of the truth_table after pruning irrelevant entries:"
-@show length(tbl)
+@show length(tbl.table)
 
 #Enhanced pruning via incorporating N1(R)
 problem = MISProblem(graph)
 pruned_tbl = OptimalBranchingMIS.OptimalBranchingCore.prune(tbl, pruner, measure, problem, vs)
 @info "the length of the truth_table after enhanced pruning via incorporating N1(R):"
-@show length(pruned_tbl)
+@show length(pruned_tbl.table)
 
 #Generate the optimal branching rule 
 @info "the optimal branching rule on R:"
