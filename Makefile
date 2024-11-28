@@ -74,3 +74,12 @@ count_ip_sq:
 
 plot:
 	$(JL) -e 'include("fig/compare_complexity_ip.jl"); include("fig/compare_ip_lp.jl");'
+
+PH2_rule:
+	$(JL) -e 'include("rule_discovery/PH2_rule.jl");'
+
+domination_rule:
+	$(JL) -e 'include("rule_discovery/domination_rule.jl");'
+
+bottleneck_rule:
+	$(JL) -e 'include("rule_discovery/bottleneck_case.jl");'
