@@ -97,7 +97,7 @@ fit = [fit_mis2, fit_xiao, fit_ip, fit_ip_xiao]
 begin
     fig = Figure(size = (800, 600), fontsize = 23)
     set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
-    ax = Axis(fig[1, 1], xlabel = "Number of Vertices", ylabel = "Number of Branches", yscale = log10)
+    ax = Axis(fig[1, 1], xlabel = "ρ(G)", ylabel = "Number of Branches", yscale = log10)
     for (i, count) in enumerate([count_mis2, count_xiao, count_ip, count_ip_xiao])
         scatter!(ax, nss[i], mean.(count), color = colors[i], label = labels[i], markersize = ms, marker = marker_styles[i])
         lines!(ax, ns_plot, 10 .^ (model(ns_plot, fit[i].param)), color = colors[i], linewidth = 2, linestyle = :dash)
