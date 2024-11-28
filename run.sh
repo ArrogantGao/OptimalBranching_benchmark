@@ -11,6 +11,8 @@ done
 for i in 60 80 100 120 140 160 180 200 220; do
     make count_xiao2013_rr i=$i threads=$threads
     make count_ip_rr i=$i threads=$threads
+    make count_lp_rr i=$i threads=$threads
+    make count_ip_xiao_rr i=$i threads=$threads
     make count_lp_xiao_rr i=$i threads=$threads
 done
 
