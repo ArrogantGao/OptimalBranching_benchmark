@@ -1,5 +1,5 @@
-using OptimalBranching, OptimalBranchingCore, Graphs, GraphGen
-
+using OptimalBranching, Graphs
+include("neighborhood_generator.jl")
 
 #Define the branching region R
 vs = [1,2,3,4,5]
