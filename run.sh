@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p log fig
+
 threads=128
 
 for i in 100 120 140 160; do
