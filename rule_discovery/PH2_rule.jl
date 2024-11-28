@@ -20,7 +20,7 @@ ovs = OptimalBranchingMIS.open_vertices(graph, vs)
 subg, vmap = induced_subgraph(graph, vs)
 tbl = OptimalBranchingMIS.reduced_alpha_configs(table_solver, subg, Int[findfirst(==(v), vs) for v in ovs])
 @info "truth_table after pruning irrelevant entries:"
-@show tbl.table
+@show tbl
 
 #Enhanced pruning via incorporating N1(R)
 problem = MISProblem(graph)

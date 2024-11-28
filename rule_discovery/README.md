@@ -1,7 +1,7 @@
 # Rule Discovery
 
 
-Here are several typical examples of `OptimalBranching.jl` used for rule discovery. Specifically, you can obtain the optimal branching rule for a given region `R` through the workflow outlined below.
+Here are three typical examples of `OptimalBranching.jl` applied for rule discovery. Specifically, you can obtain the optimal branching rule for a given region `R` through the workflow outlined below.
 
 
 Firstly, because the branching rule needs to consider the reduction of environmental measure, you must first generate a neighborhood for R. Here, we take the tree-like N3 as an example, `graph` is composed of the subgraph g0 and its tree-like N3 neighborhood.
