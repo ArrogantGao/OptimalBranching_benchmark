@@ -23,8 +23,8 @@ count_lp = Vector{Vector{Int}}()
 count_ip = Vector{Vector{Int}}()
 for n in ns_setcover
     cfg = GraphGen.RegularGraphSpec(n, 3) 
-    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip.csv"), DataFrame)
-    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp.csv"), DataFrame)
+    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip_mis.csv"), DataFrame)
+    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp_mis.csv"), DataFrame)
     push!(count_ip, df_ip.count)
     push!(count_lp, df_lp.count)
 end

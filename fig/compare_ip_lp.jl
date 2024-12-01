@@ -32,8 +32,8 @@ measure_rr = Vector{Float64}()
 
 for n in ns_rr
     cfg = GraphGen.RegularGraphSpec(n, 3)
-    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip.csv"), DataFrame)
-    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp.csv"), DataFrame)
+    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip_mis.csv"), DataFrame)
+    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp_mis.csv"), DataFrame)
     push!(count_ip_rr, df_ip.count)
     push!(count_lp_rr, df_lp.count)
 
@@ -53,8 +53,8 @@ measure_er = Vector{Float64}()
 
 for n in ns_er
     cfg = GraphGen.ErdosRenyiGraphSpec(n, 0.03)
-    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip.csv"), DataFrame)
-    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp.csv"), DataFrame)
+    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip_mis.csv"), DataFrame)
+    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp_mis.csv"), DataFrame)
     push!(count_ip_er, df_ip.count)
     push!(count_lp_er, df_lp.count)
     graphs = read_graphs(joinpath(graph_dir, GraphGen.unique_string(cfg), "graphs.g6"))
@@ -78,8 +78,8 @@ measure_ksg = Vector{Float64}()
 
 for m in ms_ksg
     cfg = GraphGen.KSGSpec(m, m, 0.8)
-    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip.csv"), DataFrame)
-    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp.csv"), DataFrame)
+    df_ip = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_ip_mis.csv"), DataFrame)
+    df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp_mis.csv"), DataFrame)
     push!(count_ip_ksg, df_ip.count)
     push!(count_lp_ksg, df_lp.count)
     df_mis2 = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_mis2.csv"), DataFrame)

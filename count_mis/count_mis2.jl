@@ -20,18 +20,20 @@ function count_mis(cfg)
     counting_mis2(smallgraph(:tutte))
     @info "init done"
 
-    nthreads = Threads.nthreads()
-    n = length(graphs) ÷ nthreads
-    for i in 1:n
-        Threads.@threads for id in (i-1)*nthreads + 1:min(i*nthreads, length(graphs))
+    num_tasks = length(graphs)
+
+    Threads.@sync for id in 1:num_tasks
+        Threads.@spawn begin
             graph = graphs[id]
             count_2 = counting_mis2(graph)
 
-            all_mis[id] = count_2.mis_size
-            all_counts[id] = count_2.mis_count
-            @info "mis2, nv = $(nv(graph)), id = $id, mis = $(count_2.mis_size), count = $(count_2.mis_count)"
+            all_mis[id] = count_2.size
+            all_counts[id] = count_2.count
+            @info "mis2, nv = $(nv(graph)), id = $id, mis = $(count_2.size), count = $(count_2.count)"
         end
     end
+
+    @info "all done"
 
     CSV.write(data_file_name, DataFrame(id = 1:length(graphs), mis = all_mis, count = all_counts), append = true)
 end

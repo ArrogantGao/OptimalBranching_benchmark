@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mkdir -p log fig
+mkdir -p log fig data
 
 threads=128
 
