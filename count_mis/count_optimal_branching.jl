@@ -44,7 +44,7 @@ function count_mis(cfg, k, solver, reducer)
             graph = graphs[id]
             (mis, count) = mis_branch_count(graph, branching_strategy = branching_strategy, reducer = reducer)
 
-            @info "ip, nv = $(nv(graph)), id = $id, mis = $mis, count = $count"
+            @info "$(cname), nv = $(nv(graph)), id = $id, mis = $mis, count = $count"
 
             all_mis[id] = mis
             all_counts[id] = count
