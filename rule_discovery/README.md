@@ -39,7 +39,7 @@ julia --project=. rule_discovery/PH2_rule.jl
 ```
 Here we show the results of `PH2_rule.jl` as an example
 ```bash
-$ jp rule_discovery/PH2_rule.jl       
+$ julia --project=. rule_discovery/PH2_rule.jl       
 [ Info: solving the branching table...
 [ Info: the length of the truth_table after pruning irrelevant entries: 9
 [ Info: generating candidate clauses...
