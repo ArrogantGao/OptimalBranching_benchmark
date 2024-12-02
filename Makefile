@@ -72,6 +72,21 @@ count_lp_sq:
 count_ip_sq:
 	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_mis(GridSpec($(m), $(n), $(filling)), 2, IPSolver(), MISReducer())' 2>&1 | tee log/count_ip_sq_$(m)_$(n).log
 
+count_all_opt_3rr:
+	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_3rr()' 2>&1 | tee log/count_all_opt_3rr.log
+
+count_all_xiao_3rr:
+	$(JL) -t $(threads) -e 'include("count_mis/count_xiao.jl"); count_all_3rr()' 2>&1 | tee log/count_all_xiao_3rr.log
+
+count_all_mis2_3rr:
+	$(JL) -t $(threads) -e 'include("count_mis/count_mis2.jl"); count_all_3rr()' 2>&1 | tee log/count_all_mis2_3rr.log
+
+count_all_opt_er:
+	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_er()' 2>&1 | tee log/count_all_opt_er.log
+
+count_all_opt_ksg:
+	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_ksg()' 2>&1 | tee log/count_all_opt_ksg.log
+
 plot:
 	$(JL) -e 'include("fig/compare_complexity_ip.jl"); include("fig/compare_ip_lp.jl");'
 
