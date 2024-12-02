@@ -45,7 +45,7 @@ function count_mis(cfg)
 end
 
 function count_all_3rr()
-    for i in [200, 220]
+    for i in 60:20:220
         count_mis(RegularGraphSpec(i, 3))
     end
 end

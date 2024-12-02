@@ -45,3 +45,15 @@ function count_all_3rr()
         count_mis(RegularGraphSpec(i, 3))
     end
 end
+
+function count_all_er()
+    for i in 60:20:160
+        count_mis(ErdosRenyiGraphSpec(i, 0.03))
+    end
+end
+
+function count_all_ksg()
+    for i in 8:1:15
+        count_mis(KSGSpec(i, i, 0.8))
+    end
+end

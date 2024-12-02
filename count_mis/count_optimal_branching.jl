@@ -14,9 +14,9 @@ function config_name(solver, reducer)
     return "$(name_solver)_$(name_reducer)"
 end
 
-function count_mis(cfg, k, solver, reducer)
+function count_mis(cfg, selector, solver, reducer)
     @info "Counting MIS for " * GraphGen.unique_string(cfg)
-    branching_strategy = BranchingStrategy(table_solver = TensorNetworkSolver(; prune_by_env=true), set_cover_solver=solver, selector=MinBoundarySelector(k), measure=D3Measure())
+    branching_strategy = BranchingStrategy(table_solver = TensorNetworkSolver(; prune_by_env=true), set_cover_solver=solver, selector=selector, measure=D3Measure())
     @show branching_strategy, reducer
 
     cname = config_name(solver, reducer)
@@ -28,22 +28,31 @@ function count_mis(cfg, k, solver, reducer)
     mis_branch_count(smallgraph(:tutte), branching_strategy = branching_strategy, reducer = reducer)
     @info "inilialization done"
 
+    @info "warming up"
+    @time mis_branch_count(graphs[1], branching_strategy = branching_strategy, reducer = reducer)
+    @info "warming up done"
+
     all_mis = zeros(Int, length(graphs))
     all_counts = zeros(Int, length(graphs))
 
     nthreads = Threads.nthreads()
     num_tasks = length(graphs)
 
-    @sync for id in 1:num_tasks
-        Threads.@spawn begin
+    n_chunk = (num_tasks - 1) ÷ nthreads + 1
+
+    for i in 1:n_chunk
+        Threads.@threads for id in (i-1)*nthreads  + 1:min(i*nthreads, num_tasks)
             graph = graphs[id]
-            (mis, count) = mis_branch_count(graph, branching_strategy = branching_strategy, reducer = reducer)
+            try
+                (mis, count) = mis_branch_count(graph, branching_strategy = branching_strategy, reducer = reducer)
+                all_mis[id] = mis
+                all_counts[id] = count
+                percent = sum(!iszero, all_counts) / num_tasks
 
-            all_mis[id] = mis
-            all_counts[id] = count
-            percent = sum(!iszero, all_counts) / num_tasks
-
-            @info "$(cname), nv = $(nv(graph)), id = $id, mis = $mis, count = $count, percent = $percent"
+                @info "$(cname), nv = $(nv(graph)), id = $id, mis = $mis, count = $count, percent = $percent"
+            catch e
+                @warn "error for $solver $reducer $id"
+            end
         end
     end
 
@@ -57,41 +66,38 @@ function count_mis(cfg, k, solver, reducer)
     @info "mean_count = $(mean(all_counts)), geometric_mean_count = $(geometric_mean(all_counts))"
 end
 
-function count_all_3rr()
-    # for i in 60:20:220
-    for i in [60, 180, 200, 220]
-        for solver in [LPSolver(), IPSolver()]
+function count_all_3rr_ip()
+    for i in 60:20:220
+        for solver in [IPSolver()]
             for reducer in [MISReducer(), XiaoReducer()]
-                try
-                    count_mis(RegularGraphSpec(i, 3), 2, solver, reducer)
-                catch e
-                    @warn "error for $solver $reducer $i"
-                end
+                count_mis(RegularGraphSpec(i, 3), MinBoundaryHighDegreeSelector(2, 6, 0), solver, reducer)
+            end
+        end
+    end
+end
+
+function count_all_3rr_lp()
+    for i in 60:20:220
+        for solver in [LPSolver()]
+            for reducer in [MISReducer(), XiaoReducer()]
+                count_mis(RegularGraphSpec(i, 3), MinBoundaryHighDegreeSelector(2, 6, 0), solver, reducer)
             end
         end
     end
 end
 
 function count_all_er()
-    for i in [60, 160, 180, 200]
+    for i in 60:20:200
         for solver in [LPSolver(), IPSolver()]
-            try
-                count_mis(ErdosRenyiGraphSpec(i, 0.03), 2, solver, MISReducer())
-            catch e
-                @warn "error for $solver $i"
-            end
+            count_mis(ErdosRenyiGraphSpec(i, 0.03), MinBoundaryHighDegreeSelector(2, 6, 0), solver, MISReducer())
         end
     end
 end
 
 function count_all_ksg()
-    for i in 8:1:14
+    for i in 8:1:15
         for solver in [LPSolver(), IPSolver()]
-            try
-                count_mis(KSGSpec(i, i, 0.8), 2, solver, MISReducer())
-            catch e
-                @warn "error for $solver $i"
-            end
+            count_mis(KSGSpec(i, i, 0.8), MinBoundaryHighDegreeSelector(2, 6, 1), solver, MISReducer())
         end
     end
 end
