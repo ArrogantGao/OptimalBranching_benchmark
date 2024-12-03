@@ -57,13 +57,13 @@ for n in ns_er
     df_lp = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_lp_mis.csv"), DataFrame)
     push!(count_ip_er, df_ip.count)
     push!(count_lp_er, df_lp.count)
-    graphs = read_graphs(joinpath(graph_dir, GraphGen.unique_string(cfg), "graphs.g6"))
-    measures = [OptimalBranching.OptimalBranchingMIS.OptimalBranchingCore.measure(MISProblem(g), measure) for g in graphs]
-    push!(measure_er, mean(measures))
+    # graphs = read_graphs(joinpath(graph_dir, GraphGen.unique_string(cfg), "graphs.g6"))
+    # measures = [OptimalBranching.OptimalBranchingMIS.OptimalBranchingCore.measure(MISProblem(g), measure) for g in graphs]
+    # push!(measure_er, mean(measures))
 end
 
 for n in ns_mis2_er
-    cfg = GraphGen.RegularGraphSpec(n, 3)
+    cfg = GraphGen.ErdosRenyiGraphSpec(n, 3)
     df_mis2 = CSV.read(joinpath(data_dir, "$(GraphGen.unique_string(cfg))_count_mis2.csv"), DataFrame)
     push!(count_mis2_er, df_mis2.count)
 end
@@ -128,7 +128,7 @@ ax3 = Axis(fig[1, 3], xlabel = "ρ(G)", yscale = log10, title = "King's Graphs")
 axs = [ax1, ax2, ax3]
 
 counts = [[count_mis2_rr, count_ip_rr, count_lp_rr], [count_mis2_er, count_ip_er[1:end], count_lp_er[1:end]], [count_mis2_ksg, count_ip_ksg, count_lp_ksg]]
-nums = [[ns_mis2_rr, ns_rr, ns_rr], [ns_er_mis2, ns_er, ns_er], [measure_ksg for _ in 1:3]]
+nums = [[ns_mis2_rr, ns_rr, ns_rr], [ns_mis2_er, ns_er, ns_er], [measure_ksg for _ in 1:3]]
 fits = [[fit_rr_mis2, fit_rr_ip, fit_rr_lp], [fit_er_mis2, fit_er_ip, fit_er_lp], [fit_ksg_mis2, fit_ksg_ip, fit_ksg_lp]]
 labels = ["mis2", "ip_mis2", "lp_mis2"]
 colors = [:blue, :green, :red]
