@@ -106,39 +106,42 @@ fit_ksg_lp = curve_fit(model, ns_ksg[n0:end], log10.(geometric_mean.(count_lp_ks
 @info "ksg_ip: $(10^fit_ksg_ip.param[1])"
 @info "ksg_lp: $(10^fit_ksg_lp.param[1])"
 
-
-fig = Figure(size = (1200, 400), fontsize = 23)
-set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
-ax1 = Axis(fig[1, 1], xlabel = "Number of Vertices", ylabel = "Number of Branches", yscale = log10, title = "3-Regular Graphs")
-ax2 = Axis(fig[1, 2], xlabel = "Number of Vertices", yscale = log10, title = "Erdos-Renyi Graphs")
-ax3 = Axis(fig[1, 3], xlabel = "Number of Vertices", yscale = log10, title = "King's Graphs")
-axs = [ax1, ax2, ax3]
-
-counts = [[count_mis2_rr, count_ip_rr, count_lp_rr], [count_mis2_er, count_ip_er[1:end], count_lp_er[1:end]], [count_mis2_ksg[3:end], count_ip_ksg[3:end], count_lp_ksg[3:end]]]
-nums = [[ns_mis2_rr, ns_rr, ns_rr], [ns_mis2_er, ns_er, ns_er], [ns_ksg[3:end] for _ in 1:3]]
-fits = [[fit_rr_mis2, fit_rr_ip, fit_rr_lp], [fit_er_mis2, fit_er_ip, fit_er_lp], [fit_ksg_mis2, fit_ksg_ip, fit_ksg_lp]]
-labels = ["mis2", "ip_mis2", "lp_mis2"]
-colors = [:blue, :green, :red]
-markers = [:circle, :diamond, :utriangle]
-ms = 12
-
-for i in 1:3
-    for j in 1:3
-        scatter!(axs[i], nums[i][j], geometric_mean.(counts[i][j]), color = colors[j], label = labels[j], markersize = ms, marker = markers[j])
-        lines!(axs[i], nums[i][j], 10 .^ (model(nums[i][j], fits[i][j].param)), color = colors[j], linewidth = 2, linestyle = :dash)
-        # errorbars!(axs[i], nums[i][j], geometric_mean.(counts[i][j]), std.(counts[i][j]), color = colors[j], whiskerwidth = 10)
+begin
+    fig = Figure(size = (1200, 400), fontsize = 23)
+    set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
+    ax1 = Axis(fig[1, 1], xlabel = "Number of Vertices", ylabel = "Number of Branches", yscale = log10, title = "3-Regular Graphs")
+    ax2 = Axis(fig[1, 2], xlabel = "Number of Vertices", yscale = log10, title = "Erdos-Renyi Graphs")
+    ax3 = Axis(fig[1, 3], xlabel = "Number of Vertices", yscale = log10, title = "King's Graphs")
+    axs = [ax1, ax2, ax3]
+    
+    counts = [[count_mis2_rr, count_ip_rr, count_lp_rr], [count_mis2_er, count_ip_er[1:end], count_lp_er[1:end]], [count_mis2_ksg[3:end], count_ip_ksg[3:end], count_lp_ksg[3:end]]]
+    nums = [[ns_mis2_rr, ns_rr, ns_rr], [ns_mis2_er, ns_er, ns_er], [ns_ksg[3:end] for _ in 1:3]]
+    fits = [[fit_rr_mis2, fit_rr_ip, fit_rr_lp], [fit_er_mis2, fit_er_ip, fit_er_lp], [fit_ksg_mis2, fit_ksg_ip, fit_ksg_lp]]
+    labels = ["mis2", "ip_mis2", "lp_mis2"]
+    colors = [:blue, :green, :red]
+    markers = [:circle, :diamond, :utriangle]
+    ms = 12
+    
+    for i in 1:3
+        for j in 1:3
+            scatter!(axs[i], nums[i][j], geometric_mean.(counts[i][j]), color = colors[j], label = labels[j], markersize = ms, marker = markers[j])
+            lines!(axs[i], nums[i][j], 10 .^ (model(nums[i][j], fits[i][j].param)), color = colors[j], linewidth = 2, linestyle = :dash)
+            # errorbars!(axs[i], nums[i][j], geometric_mean.(counts[i][j]), std.(counts[i][j]), color = colors[j], whiskerwidth = 10)
+        end
     end
+    
+    xlims!(ax1, 40, 230)
+    xlims!(ax2, 50, 1050)
+    xlims!(ax3, 70, 190)
+    
+    ylims!(ax1, 10^(0.5), 10^(6.5))
+    ylims!(ax2, 10^(-0.4), 10^(3.4))
+    ylims!(ax3, 10^(-0.2), 10^(2.8))
+    
+    axislegend(ax1, position = :lt, font = "Montserrat", fontsize = 20)
+
+    save(joinpath(@__DIR__, "compare_ip_lp.pdf"), fig)
+    save(joinpath(@__DIR__, "compare_ip_lp.png"), fig) 
 end
 
-# xlims!(ax1, 40, 210)
-# xlims!(ax2, 80, 820)
-# xlims!(ax3, 140, 610)
-
-ylims!(ax1, 10^(0.5), 1e6)
-ylims!(ax2, 10^(-0.5), 10^(3.5))
-ylims!(ax3, 10^(-0.5), 1e3)
-
-axislegend(ax2, position = :lt, fontsize = 15, font = "Montserrat")
 fig
-save(joinpath(@__DIR__, "compare_ip_lp.pdf"), fig)
-save(joinpath(@__DIR__, "compare_ip_lp.png"), fig)
