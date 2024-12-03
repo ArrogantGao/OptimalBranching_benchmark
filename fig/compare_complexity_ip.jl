@@ -40,7 +40,7 @@ for n in ns_setcover_xiao
     push!(count_lp_xiao, df_lp.count)
 end
 
-ns_xiao = [60:20:260...]
+ns_xiao = [60:20:220...]
 count_xiao = Vector{Vector{Int}}()
 for n in ns_xiao
     cfg = GraphGen.RegularGraphSpec(n, 3)
@@ -62,10 +62,10 @@ p0 = [1.0, 1.0]
 # fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(mean.(count_xiao[n0:end])), p0)
 
 fit_mis2 = curve_fit(model, ns_mis2[n0:end], log10.(geometric_mean.(count_mis2[n0:end])), p0)
-fit_lp = curve_fit(model, ns_setcover[n0:end], log10.(geometric_mean.(count_lp[n0:end])), p0)
+# fit_lp = curve_fit(model, ns_setcover[n0:end], log10.(geometric_mean.(count_lp[n0:end])), p0)
 fit_ip = curve_fit(model, ns_setcover[n0:end], log10.(geometric_mean.(count_ip[n0:end])), p0)
 fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(geometric_mean.(count_xiao[n0:end])), p0)
-fit_lp_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_lp_xiao[n0:end])), p0)
+# fit_lp_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_lp_xiao[n0:end])), p0)
 fit_ip_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_ip_xiao[n0:end])), p0)
 
 @info "count_mis2: fit_mis2: $(10^fit_mis2.param[1])"

@@ -19,7 +19,7 @@ rr:
 	$(JL) -e 'include("Graphs/generate.jl"); gen(RegularGraphSpec($(size), $(d)), $(nsample))' 
 
 er:
-	$(JL) -e 'include("Graphs/generate.jl"); gen(ErdosRenyiGraphSpec($(size), $(p)), $(nsample))'
+	$(JL) -e 'include("Graphs/generate.jl"); gen(ErdosRenyiGraphSpec($(size), $(d)), $(nsample))'
 
 ksg:
 	$(JL) -e 'include("Graphs/generate.jl"); gen(KSGSpec($(m), $(n), $(filling)), $(nsample))'
@@ -33,8 +33,11 @@ count_all_opt_3rr_ip:
 count_all_opt_3rr_lp:
 	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_3rr_lp()' 2>&1 | tee log/count_all_opt_3rr_lp.log
 
-count_all_opt_er:
-	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_er()' 2>&1 | tee log/count_all_opt_er.log
+count_all_opt_er_ip:
+	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_er_ip()' 2>&1 | tee log/count_all_opt_er_ip.log
+
+count_all_opt_er_lp:
+	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_er_lp()' 2>&1 | tee log/count_all_opt_er_lp.log
 
 count_all_opt_ksg:
 	$(JL) -t $(threads) -e 'include("count_mis/count_optimal_branching.jl"); count_all_ksg()' 2>&1 | tee log/count_all_opt_ksg.log

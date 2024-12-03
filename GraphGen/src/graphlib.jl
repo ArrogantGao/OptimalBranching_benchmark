@@ -34,10 +34,10 @@ end
 
 struct ErdosRenyiGraphSpec <: AbstractGraphSpec
     size::Int
-    prob::Float64
+    mean_degree::Int
 end
-unique_string(g::ErdosRenyiGraphSpec) = "ErdosRenyi$(g.size)p$(g.prob)"
+unique_string(g::ErdosRenyiGraphSpec) = "ErdosRenyi$(g.size)d$(g.mean_degree)"
 function render_graph(g::ErdosRenyiGraphSpec, seed::Int)
     Random.seed!(seed)
-    Graphs.erdos_renyi(g.size, g.prob)
+    Graphs.erdos_renyi(g.size, g.mean_degree / (g.size - 1))
 end

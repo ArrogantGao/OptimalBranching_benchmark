@@ -86,10 +86,18 @@ function count_all_3rr_lp()
     end
 end
 
-function count_all_er()
-    for i in 60:20:200
-        for solver in [LPSolver(), IPSolver()]
-            count_mis(ErdosRenyiGraphSpec(i, 0.03), MinBoundaryHighDegreeSelector(2, 6, 0), solver, MISReducer())
+function count_all_er_ip()
+    for i in 100:100:1000
+        for solver in [IPSolver()]
+            count_mis(ErdosRenyiGraphSpec(i, 3), MinBoundaryHighDegreeSelector(2, 6, 0), solver, MISReducer())
+        end
+    end
+end
+
+function count_all_er_lp()
+    for i in 100:100:1000
+        for solver in [LPSolver()]
+            count_mis(ErdosRenyiGraphSpec(i, 3), MinBoundaryHighDegreeSelector(2, 6, 0), solver, MISReducer())
         end
     end
 end

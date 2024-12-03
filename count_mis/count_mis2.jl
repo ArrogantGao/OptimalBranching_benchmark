@@ -1,8 +1,13 @@
 using OptimalBranching, Graphs, GraphGen
 using Base.Threads
 using CSV, DataFrames
+using Statistics
 
 const basedir = dirname(dirname(@__DIR__))
+
+function geometric_mean(x)
+    return exp(mean(log.(x)))
+end
 
 function count_mis(cfg)
     @info "Counting MIS for " * GraphGen.unique_string(cfg)
@@ -38,6 +43,8 @@ function count_mis(cfg)
     header = ["id", "mis", "count"]
     CSV.write(data_file_name, DataFrame(), header=header)
     CSV.write(data_file_name, DataFrame(id = 1:length(graphs), mis = all_mis, count = all_counts), append = true)
+
+    @info "mean_count = $(mean(all_counts)), geometric_mean_count = $(geometric_mean(all_counts))"
 end
 
 function count_all_3rr()
@@ -47,8 +54,8 @@ function count_all_3rr()
 end
 
 function count_all_er()
-    for i in 60:20:160
-        count_mis(ErdosRenyiGraphSpec(i, 0.03))
+    for i in 100:100:1000
+        count_mis(ErdosRenyiGraphSpec(i, 3))
     end
 end
 
