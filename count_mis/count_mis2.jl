@@ -54,7 +54,7 @@ function count_all_3rr()
 end
 
 function count_all_er()
-    for i in 100:100:1000
+    for i in 100:100:800
         count_mis(ErdosRenyiGraphSpec(i, 3))
     end
 end
