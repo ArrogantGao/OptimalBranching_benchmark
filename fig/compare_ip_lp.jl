@@ -117,7 +117,7 @@ begin
     counts = [[count_mis2_rr, count_ip_rr, count_lp_rr], [count_mis2_er, count_ip_er[1:end], count_lp_er[1:end]], [count_mis2_ksg[3:end], count_ip_ksg[3:end], count_lp_ksg[3:end]]]
     nums = [[ns_mis2_rr, ns_rr, ns_rr], [ns_mis2_er, ns_er, ns_er], [ns_ksg[3:end] for _ in 1:3]]
     fits = [[fit_rr_mis2, fit_rr_ip, fit_rr_lp], [fit_er_mis2, fit_er_ip, fit_er_lp], [fit_ksg_mis2, fit_ksg_ip, fit_ksg_lp]]
-    labels = ["mis2", "ip_mis2", "lp_mis2"]
+    labels = ["mis2", "ob_mis2", "obrelax_mis2"]
     colors = [:blue, :green, :red]
     markers = [:circle, :diamond, :utriangle]
     ms = 12
@@ -138,7 +138,8 @@ begin
     ylims!(ax2, 10^(-0.4), 10^(3.4))
     ylims!(ax3, 10^(-0.2), 10^(2.8))
     
-    axislegend(ax1, position = :lt, font = "Montserrat", fontsize = 20)
+    axislegend(ax1, position = :lt, font = "Montserrat", labelsize = 15)  # Updated font size
+
 
     save(joinpath(@__DIR__, "compare_ip_lp.pdf"), fig)
     save(joinpath(@__DIR__, "compare_ip_lp.png"), fig) 

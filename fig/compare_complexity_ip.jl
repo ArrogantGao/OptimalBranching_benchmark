@@ -95,7 +95,7 @@ marker_styles = [:circle, :diamond, :utriangle, :rect]
 colors = [:blue, :green, :red, :purple]
 locs_x = [150, 100, 100, 150]
 locs_y = [100000, 10, 300, 100]
-labels = ["mis2", "xiao2013", "ip_mis2", "ip_xiao2013"]
+labels = ["mis2", "xiao2013", "ob_mis2", "ob_xiao2013"]
 nss = [ns_mis2, ns_xiao, ns_setcover, ns_setcover_xiao]
 fit = [fit_mis2, fit_xiao, fit_ip, fit_ip_xiao]
 begin
@@ -109,11 +109,12 @@ begin
         text!(locs_x[i], locs_y[i], text = L"O(%$(round(10^fit[i].param[1], digits = 4))^n)", color = colors[i], fontsize = 23)
     end
 
-    axislegend(ax, position = :rb, fontsize = 15, font = "Montserrat")
+    axislegend(ax, position = :rb, labelsize = 20, font = "Montserrat")
 end
 xlims!(ax, 45, 235)
 ylims!(ax, 1, 1e6)
-fig
 
 save(joinpath(@__DIR__, "branching_comparison_ip.pdf"), fig)
 save(joinpath(@__DIR__, "branching_comparison_ip.png"), fig)
+
+fig
