@@ -69,15 +69,19 @@ fit_xiao = curve_fit(model, ns_xiao[n0:end], log10.(geometric_mean.(count_xiao[n
 fit_ip_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(count_ip_xiao[n0:end])), p0)
 
 @info "count_mis2: fit_mis2: $(10^fit_mis2.param[1])"
+@info ns_mis2
 @info geometric_mean.(count_mis2)
 @info sqrt.(var.(count_mis2))
 @info "count_ip: fit_ip: $(10^fit_ip.param[1])"
+@info ns_setcover
 @info geometric_mean.(count_ip)
 @info sqrt.(var.(count_ip))
 @info "count_xiao: fit_xiao: $(10^fit_xiao.param[1])"
+@info ns_xiao
 @info geometric_mean.(count_xiao)
 @info sqrt.(var.(count_xiao))
 @info "count_ip_xiao: fit_ip_xiao: $(10^fit_ip_xiao.param[1])"
+@info ns_setcover_xiao
 @info geometric_mean.(count_ip_xiao)
 @info sqrt.(var.(count_ip_xiao))
 
