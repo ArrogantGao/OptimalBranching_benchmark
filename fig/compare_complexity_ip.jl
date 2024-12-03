@@ -90,31 +90,33 @@ fit_ip_xiao = curve_fit(model, ns_setcover_xiao[n0:end], log10.(geometric_mean.(
 # fit_ip = curve_fit(model, ns_setcover, mean.(count_ip), p0)
 # fit_xiao = curve_fit(model, ns_xiao, mean.(count_xiao), p0)
 
-ms = 12
-marker_styles = [:circle, :diamond, :utriangle, :rect]
-colors = [:blue, :green, :red, :purple]
-locs_x = [150, 100, 100, 150]
-locs_y = [100000, 10, 300, 100]
-labels = ["mis2", "xiao2013", "ob_mis2", "ob_xiao2013"]
-nss = [ns_mis2, ns_xiao, ns_setcover, ns_setcover_xiao]
-fit = [fit_mis2, fit_xiao, fit_ip, fit_ip_xiao]
 begin
-    fig = Figure(size = (800, 600), fontsize = 23)
-    set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
-    ax = Axis(fig[1, 1], xlabel = "Number of Vertices", ylabel = "Number of Branches", yscale = log10)
-    for (i, count) in enumerate([count_mis2, count_xiao, count_ip, count_ip_xiao])
-        scatter!(ax, nss[i], mean.(count), color = colors[i], label = labels[i], markersize = ms, marker = marker_styles[i])
-        lines!(ax, ns_plot, 10 .^ (model(ns_plot, fit[i].param)), color = colors[i], linewidth = 2, linestyle = :dash)
-        errorbars!(ax, nss[i], mean.(count), std.(count), color = colors[i], whiskerwidth = 10)
-        text!(locs_x[i], locs_y[i], text = L"O(%$(round(10^fit[i].param[1], digits = 4))^n)", color = colors[i], fontsize = 23)
+    ms = 15
+    marker_styles = [:circle, :diamond, :utriangle, :rect]
+    colors = [:blue, :green, :red, :purple]
+    locs_x = [120, 100, 100, 150]
+    locs_y = [10000, 10, 300, 100]
+    labels = ["mis2", "xiao2013", "ob_mis2", "ob_xiao2013"]
+    nss = [ns_mis2, ns_xiao, ns_setcover, ns_setcover_xiao]
+    fit = [fit_mis2, fit_xiao, fit_ip, fit_ip_xiao]
+    begin
+        fig = Figure(size = (800, 600), fontsize = 23)
+        set_theme!(fonts = (; regular = "Montserrat", bold = "Montserrat Bold"))
+        ax = Axis(fig[1, 1], xlabel = "Number of Vertices", ylabel = "Number of Branches", yscale = log10)
+        for (i, count) in enumerate([count_mis2, count_xiao, count_ip, count_ip_xiao])
+            scatter!(ax, nss[i], mean.(count), color = colors[i], label = labels[i], markersize = ms, marker = marker_styles[i])
+            lines!(ax, ns_plot, 10 .^ (model(ns_plot, fit[i].param)), color = colors[i], linewidth = 2, linestyle = :dash)
+            # errorbars!(ax, nss[i], mean.(count), std.(count), color = colors[i], whiskerwidth = 10)
+            text!(locs_x[i], locs_y[i], text = L"O(%$(round(10^fit[i].param[1], digits = 4))^n)", color = colors[i], fontsize = 23)
+        end
+
+        axislegend(ax, position = :rb, labelsize = 20, font = "Montserrat")
     end
+    xlims!(ax, 45, 235)
+    ylims!(ax, 1, 1e5)
 
-    axislegend(ax, position = :rb, labelsize = 20, font = "Montserrat")
+    save(joinpath(@__DIR__, "branching_comparison_ip.pdf"), fig)
+    save(joinpath(@__DIR__, "branching_comparison_ip.png"), fig)
 end
-xlims!(ax, 45, 235)
-ylims!(ax, 1, 1e6)
-
-save(joinpath(@__DIR__, "branching_comparison_ip.pdf"), fig)
-save(joinpath(@__DIR__, "branching_comparison_ip.png"), fig)
 
 fig
